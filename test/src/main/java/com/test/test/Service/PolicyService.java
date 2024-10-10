@@ -16,7 +16,7 @@ public class PolicyService {
     private PolicyRepository courseRepository;
 
     // Create a new course
-    public Policy createCourse(Policy policy) {
+    public Policy createPolicy(Policy policy) {
         return courseRepository.save(policy);
     }
 

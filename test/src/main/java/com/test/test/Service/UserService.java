@@ -38,7 +38,7 @@ public class UserService {
 
         // Assign roles based on the provided role in the request
         Set<Role> roles = new HashSet<>();
-        if (registerRequest.getRole().equals("ROLE_ADMIN")) {
+        if (registerRequest.getRole().equals("ROLE_AGENT")) {
             Role adminRole = roleRepository.findByName(ERole.ROLE_AGENT)
                     .orElseThrow(() -> new RuntimeException("Role not found"));
             roles.add(adminRole);

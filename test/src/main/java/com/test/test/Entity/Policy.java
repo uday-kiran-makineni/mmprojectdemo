@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "POLICIES")
+@Table(name = "policies")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -18,9 +18,8 @@ public class Policy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long policyNumber;
+    private String policynumber;
     private String policytype;
     private String description;
-    private Long agent_id;
 }
 

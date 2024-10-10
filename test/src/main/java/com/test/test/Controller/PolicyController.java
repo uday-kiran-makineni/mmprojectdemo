@@ -3,6 +3,7 @@ package com.test.test.Controller;
 import com.test.test.Entity.Policy;
 import com.test.test.Service.PolicyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +19,18 @@ public class PolicyController {
 
     // Admin can create a new course
     @PostMapping
-    @PreAuthorize("hasRole('AGENT')")
-    public ResponseEntity<Policy> createCourse(@RequestBody Policy policy) {
-        return ResponseEntity.ok(policyService.createCourse(policy));
+    @PreAuthorize("hasAnyRole('AGENT', 'USER')")
+    public ResponseEntity<Policy> createPolicy(@RequestBody Policy policy) {
+        try {
+            Policy createdPolicy = policyService.createPolicy(policy);
+            return ResponseEntity.ok(createdPolicy);
+        } catch (Exception e) {
+            // Log the exception for debugging purposes
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
+
 
     // Admin can delete a course by ID
     @DeleteMapping("/{id}")
