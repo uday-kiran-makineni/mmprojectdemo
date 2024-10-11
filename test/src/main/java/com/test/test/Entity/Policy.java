@@ -21,5 +21,6 @@ public class Policy {
     private String policynumber;
     private String policytype;
     private String description;
+    private Long agentid;
 }
 
