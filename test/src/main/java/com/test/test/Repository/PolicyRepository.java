@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface PolicyRepository extends JpaRepository<Policy, Long> {
     List<Policy> findByAgentId(Long agentId);
+    List<Policy> findByUserId(Long userId);
 }

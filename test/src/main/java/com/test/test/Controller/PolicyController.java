@@ -43,14 +43,13 @@ public class PolicyController {
     }
 
 
-    // Admin or Learners can view all courses
     @GetMapping
     @PreAuthorize("hasAnyRole('AGENT', 'USER')")
     public List<Policy> getAllPolicies() {
         return policyService.getAllPolicies();
     }
 
-    // Admin or Learners can view a specific course by ID
+
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('AGENT', 'USER')")
     public ResponseEntity<Policy> getPolicyById(@PathVariable Long id) {
@@ -59,4 +58,32 @@ public class PolicyController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('AGENT', 'USER')")
+    public ResponseEntity<Policy> updatePolicy(@PathVariable Long id, @RequestBody Policy policyDetails) {
+        return policyService.getPolicyById(id)
+                .map(existingPolicy -> {
+                    // Update the existing policy with the new details
+                    existingPolicy.setPolicynumber(policyDetails.getPolicynumber());
+                    existingPolicy.setPolicytype(policyDetails.getPolicytype());
+                    existingPolicy.setDescription(policyDetails.getDescription());
+                    existingPolicy.setAgentId(policyDetails.getAgentId());
+                    existingPolicy.setUserId(policyDetails.getUserId());
+                    existingPolicy.setStartDate(policyDetails.getStartDate());
+                    existingPolicy.setEndDate(policyDetails.getEndDate());
+                    existingPolicy.setPremiumAmount(policyDetails.getPremiumAmount());
+                    existingPolicy.setCoverageAmount(policyDetails.getCoverageAmount());
+                    existingPolicy.setPaymentFrequency(policyDetails.getPaymentFrequency());
+                    existingPolicy.setPolicyStatus(policyDetails.getPolicyStatus());
+                    existingPolicy.setClaimLimit(policyDetails.getClaimLimit());
+                    existingPolicy.setBeneficiaryDetails(policyDetails.getBeneficiaryDetails());
+                    existingPolicy.setTermsAndConditions(policyDetails.getTermsAndConditions());
+                    existingPolicy.setMobileNumber(policyDetails.getMobileNumber());
+                    existingPolicy.setEmail(policyDetails.getEmail());
+
+                    Policy updatedPolicy = policyService.updatePolicy(existingPolicy);
+                    return ResponseEntity.ok(updatedPolicy);
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
 }

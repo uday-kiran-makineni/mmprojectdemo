@@ -23,7 +23,7 @@ public class AgentController {
     }
 
     // Get policies by agent ID
-    @GetMapping("/agent/{agentId}")
+    @GetMapping("/{agentId}")
     @PreAuthorize("hasRole('AGENT')")
     public ResponseEntity<List<Policy>> getPoliciesByAgentId(@PathVariable Long agentId) {
         List<Policy> policies = policyService.getPoliciesByAgentId(agentId);

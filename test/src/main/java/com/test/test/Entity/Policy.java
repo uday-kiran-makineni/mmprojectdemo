@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "policies")
 @AllArgsConstructor
@@ -22,5 +24,17 @@ public class Policy {
     private String policytype;
     private String description;
     private Long agentId;
+    private Date startDate;
+    private Date endDate;
+    private Long userId;
+    private Double premiumAmount;
+    private Double coverageAmount;
+    private String paymentFrequency;
+    private String policyStatus;
+    private Double claimLimit;
+    private String beneficiaryDetails;
+    private String termsAndConditions;
+    private String mobileNumber;
+    private String email;
 }
 

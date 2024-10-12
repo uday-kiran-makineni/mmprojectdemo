@@ -34,5 +34,13 @@ public class PolicyService {
     public List<Policy> getPoliciesByAgentId(Long agentId) {
         return policyRepository.findByAgentId(agentId);
     }
+
+    public Policy updatePolicy(Policy policy) {
+        return policyRepository.save(policy);  // Save updated policy object
+    }
+
+    public List<Policy> getPoliciesByUserId(Long userId) {
+        return policyRepository.findByUserId(userId);
+    }
 }
 
