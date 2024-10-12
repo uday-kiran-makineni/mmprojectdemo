@@ -14,15 +14,20 @@ public class RoleConfig {
     CommandLineRunner initRoles(RoleRepository roleRepository) {
         return args -> {
             if (roleRepository.findByName(ERole.ROLE_AGENT).isEmpty()) {
-                Role adminRole = new Role();
-                adminRole.setName(ERole.ROLE_AGENT);
-                roleRepository.save(adminRole);
+                Role agentRole = new Role();
+                agentRole.setName(ERole.ROLE_AGENT);
+                roleRepository.save(agentRole);
             }
 
             if (roleRepository.findByName(ERole.ROLE_USER).isEmpty()) {
-                Role studentRole = new Role();
-                studentRole.setName(ERole.ROLE_USER);
-                roleRepository.save(studentRole);
+                Role userRole = new Role();
+                userRole.setName(ERole.ROLE_USER);
+                roleRepository.save(userRole);
+            }
+            if (roleRepository.findByName(ERole.ROLE_ADMIN).isEmpty()) {
+                Role adminRole = new Role();
+                adminRole.setName(ERole.ROLE_ADMIN);
+                roleRepository.save(adminRole);
             }
         };
     }

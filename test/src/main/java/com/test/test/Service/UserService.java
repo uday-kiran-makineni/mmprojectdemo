@@ -39,8 +39,12 @@ public class UserService {
         // Assign roles based on the provided role in the request
         Set<Role> roles = new HashSet<>();
         if (registerRequest.getRole().equals("ROLE_AGENT")) {
-            Role adminRole = roleRepository.findByName(ERole.ROLE_AGENT)
+            Role agentRole = roleRepository.findByName(ERole.ROLE_AGENT)
                     .orElseThrow(() -> new RuntimeException("Role not found"));
+            roles.add(agentRole);
+        } else if (registerRequest.getRole().equals("ROLE_ADMIN")) {
+            Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                    .orElseThrow(()-> new RuntimeException("Role not found"));
             roles.add(adminRole);
         } else {
             Role userRole = roleRepository.findByName(ERole.ROLE_USER)
@@ -48,10 +52,8 @@ public class UserService {
             roles.add(userRole);
         }
         user.setRoles(roles);
-
         // Save the new user
         userRepository.save(user);
-
         return "User registered successfully!";
     }
 }

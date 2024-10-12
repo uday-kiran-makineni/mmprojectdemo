@@ -13,14 +13,23 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/agent")
 public class AgentController {
-
     @Autowired
     private PolicyService policyService;
-
     // Admin can create a new course
-    @GetMapping("/policies/{id}")
-    @PreAuthorize("hasRole('AGENT')")
+    @GetMapping("/policies")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Policy> getPolicies() {
-        return policyService.getAllCourses();
+        return policyService.getAllPolicies();
+    }
+
+    // Get policies by agent ID
+    @GetMapping("/agent/{agentId}")
+    @PreAuthorize("hasRole('AGENT')")
+    public ResponseEntity<List<Policy>> getPoliciesByAgentId(@PathVariable Long agentId) {
+        List<Policy> policies = policyService.getPoliciesByAgentId(agentId);
+        if (policies.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(policies);
     }
 }

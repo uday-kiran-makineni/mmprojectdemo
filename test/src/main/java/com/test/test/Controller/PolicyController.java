@@ -32,26 +32,29 @@ public class PolicyController {
     }
 
 
-    // Admin can delete a course by ID
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('AGENT')")
-    public ResponseEntity<Void> deleteCourse(@PathVariable Long id) {
-        policyService.deleteCourse(id);
+    public ResponseEntity<Void> deletePolicy(@PathVariable Long id) {
+        if (policyService.getPolicyById(id).isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        policyService.deletePolicy(id);
         return ResponseEntity.noContent().build();
     }
+
 
     // Admin or Learners can view all courses
     @GetMapping
     @PreAuthorize("hasAnyRole('AGENT', 'USER')")
-    public List<Policy> getAllCourses() {
-        return policyService.getAllCourses();
+    public List<Policy> getAllPolicies() {
+        return policyService.getAllPolicies();
     }
 
     // Admin or Learners can view a specific course by ID
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('AGENT', 'USER')")
-    public ResponseEntity<Policy> getCourseById(@PathVariable Long id) {
-        return policyService.getCourseById(id)
+    public ResponseEntity<Policy> getPolicyById(@PathVariable Long id) {
+        return policyService.getPolicyById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

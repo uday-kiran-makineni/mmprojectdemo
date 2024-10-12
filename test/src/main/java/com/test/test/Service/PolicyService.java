@@ -13,26 +13,26 @@ import java.util.Optional;
 public class PolicyService {
 
     @Autowired
-    private PolicyRepository courseRepository;
+    private PolicyRepository policyRepository;
 
-    // Create a new course
     public Policy createPolicy(Policy policy) {
-        return courseRepository.save(policy);
+        return policyRepository.save(policy);
     }
 
-    // Get all courses
-    public List<Policy> getAllCourses() {
-        return courseRepository.findAll();
+    public List<Policy> getAllPolicies() {
+        return policyRepository.findAll();
     }
 
-    // Get a course by ID
-    public Optional<Policy> getCourseById(Long id) {
-        return courseRepository.findById(id);
+    public Optional<Policy> getPolicyById(Long id) {
+        return policyRepository.findById(id);
     }
 
-    // Delete a course
-    public void deleteCourse(Long id) {
-        courseRepository.deleteById(id);
+    public void deletePolicy(Long id) {
+        policyRepository.deleteById(id);
+    }
+
+    public List<Policy> getPoliciesByAgentId(Long agentId) {
+        return policyRepository.findByAgentId(agentId);
     }
 }
 

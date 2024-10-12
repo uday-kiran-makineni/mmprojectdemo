@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Disable CSRF protection if needed
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll() // Allow anyone to register
-                        .requestMatchers("/api/students/**","/api/students").hasAnyRole("AGENT", "USER") // Require roles for other endpoints
+                        .requestMatchers("/api/students/**","/api/students").hasAnyRole("AGENT", "USER", "ADMIN") // Require roles for other endpoints
                         .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults());
