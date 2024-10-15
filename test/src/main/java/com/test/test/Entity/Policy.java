@@ -24,6 +24,7 @@ public class Policy {
     private String policytype;
     private String description;
     private Long agentId;
+    private String agentemail;
     private Date startDate;
     private Date endDate;
     private Long userId;
@@ -35,6 +36,6 @@ public class Policy {
     private String beneficiaryDetails;
     private String termsAndConditions;
     private String mobileNumber;
-    private String email;
+    private String useremail;
 }
 

@@ -68,6 +68,7 @@ public class PolicyController {
                     existingPolicy.setPolicytype(policyDetails.getPolicytype());
                     existingPolicy.setDescription(policyDetails.getDescription());
                     existingPolicy.setAgentId(policyDetails.getAgentId());
+                    existingPolicy.setAgentemail(policyDetails.getAgentemail());
                     existingPolicy.setUserId(policyDetails.getUserId());
                     existingPolicy.setStartDate(policyDetails.getStartDate());
                     existingPolicy.setEndDate(policyDetails.getEndDate());
@@ -79,7 +80,7 @@ public class PolicyController {
                     existingPolicy.setBeneficiaryDetails(policyDetails.getBeneficiaryDetails());
                     existingPolicy.setTermsAndConditions(policyDetails.getTermsAndConditions());
                     existingPolicy.setMobileNumber(policyDetails.getMobileNumber());
-                    existingPolicy.setEmail(policyDetails.getEmail());
+                    existingPolicy.setUseremail(policyDetails.getUseremail());
 
                     Policy updatedPolicy = policyService.updatePolicy(existingPolicy);
                     return ResponseEntity.ok(updatedPolicy);
