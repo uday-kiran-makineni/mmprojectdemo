@@ -2,62 +2,76 @@ package com.test.test.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
+import java.util.Arrays;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
 public class SecurityConfig {
 
-    private final UserDetailsService userDetailsService;
-
-    public SecurityConfig(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    // Password encoder bean to hash user passwords
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
+
+    // Security filter chain configuration
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Disable CSRF protection if needed
+                // Enable CORS and disable CSRF (since you’re using JWT or other auth mechanisms)
+                .cors(withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
+
+                // Handle authorization and permit paths based on roles
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // Allow anyone to register
-                        .requestMatchers("/api/students/**","/api/students").hasAnyRole("AGENT", "USER", "ADMIN") // Require roles for other endpoints
+                        // Allow unauthenticated access to authentication-related endpoints
+                        .requestMatchers("/api/auth/**").permitAll()
+                        // Restrict specific paths based on roles
+                        .requestMatchers("/api/students/**", "/api/claims/**").hasAnyRole("USER", "AGENT", "ADMIN")
+                        // All other paths must be authenticated
                         .anyRequest().authenticated()
                 )
+                // Enable HTTP Basic authentication (or use JWT if required)
                 .httpBasic(withDefaults());
 
         return http.build();
     }
 
-    // Global CORS configuration
+    // CORS filter configuration
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("http://localhost:3000"); // Allow your React frontend origin
-        corsConfiguration.addAllowedHeader("*"); // Allow all headers
-        corsConfiguration.addAllowedMethod("*"); // Allow all HTTP methods (GET, POST, PUT, DELETE, etc.)
-        corsConfiguration.setAllowCredentials(true); // Allow credentials (cookies, authorization headers, etc.)
+        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:5173")); // Frontend origin
+        corsConfiguration.setAllowedHeaders(Arrays.asList("*")); // Allow all headers
+        corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE")); // HTTP methods allowed
+        corsConfiguration.setAllowCredentials(true); // Allow credentials (e.g., cookies, authorization headers)
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration); // Apply this to all routes
+        source.registerCorsConfiguration("/**", corsConfiguration);
 
         return new CorsFilter(source);
     }
 
-
+    // Custom web security ignoring paths, for example static assets
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring().requestMatchers(HttpMethod.OPTIONS, "/**");
     }
 }

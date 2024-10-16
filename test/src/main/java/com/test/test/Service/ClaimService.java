@@ -42,4 +42,13 @@ public class ClaimService {
         }
         return false;
     }
+
+    public List<Claim> getClaimsByUserId(Long userId) {
+        return claimRepository.findByUserId(userId); // Assume this method is implemented in the repository
+    }
+
+    // Method to get claims by agent ID
+    public List<Claim> getClaimsByAgentId(Long agentId) {
+        return claimRepository.findByAgentId(agentId); // Assume this method is implemented in the repository
+    }
 }

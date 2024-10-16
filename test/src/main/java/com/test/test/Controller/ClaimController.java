@@ -4,10 +4,11 @@ package com.test.test.Controller;
 import com.test.test.Entity.Claim;
 import com.test.test.Service.ClaimService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/claims")
 public class ClaimController {
@@ -60,4 +61,20 @@ public class ClaimController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/user/{userId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<List<Claim>> getClaimsByUserId(@PathVariable Long userId) {
+        List<Claim> claims = claimService.getClaimsByUserId(userId);
+        return ResponseEntity.ok(claims);
+    }
+
+    // Get claims by agent ID
+    @GetMapping("/agent/{agentId}")
+    @PreAuthorize("hasRole('AGENT')")
+    public ResponseEntity<List<Claim>> getClaimsByAgentId(@PathVariable Long agentId) {
+        List<Claim> claims = claimService.getClaimsByAgentId(agentId);
+        return ResponseEntity.ok(claims);
+    }
+
 }

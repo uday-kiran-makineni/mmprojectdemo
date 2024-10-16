@@ -1,6 +1,5 @@
 package com.test.test.Entity;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,7 +18,6 @@ public class Claim {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String admissionName;
     private String policyHolderName;
     private String policyType;
@@ -29,4 +27,6 @@ public class Claim {
     private String userEmail;
     private String agentEmail;
     private String status;
+    private Long userId;   // User ID associated with the claim
+    private Long agentId;  // Agent ID associated with the claim
 }

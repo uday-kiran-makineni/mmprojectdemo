@@ -12,5 +12,6 @@ public class AuthResponse {
     private String message;
     private String roles; // Include user roles in the response
     private boolean success;
+    private Long userId;
 }
 

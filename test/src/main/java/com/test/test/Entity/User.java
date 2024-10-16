@@ -19,6 +19,8 @@ public class User {
     private Long id;
     private String username;
     private String password;
+    private String email;
+    private String phone;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",

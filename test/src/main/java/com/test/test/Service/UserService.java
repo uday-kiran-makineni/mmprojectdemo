@@ -35,6 +35,8 @@ public class UserService {
         User user = new User();
         user.setUsername(registerRequest.getUsername());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        user.setEmail(registerRequest.getEmail());
+        user.setPhone(registerRequest.getPhone());
 
         // Assign roles based on the provided role in the request
         Set<Role> roles = new HashSet<>();

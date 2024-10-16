@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -47,9 +47,10 @@ public class AuthController {
                         .map(role -> role.getName().name()) // Get the name of the enum
                         .collect(Collectors.joining(","));
 
-                return ResponseEntity.ok(new AuthResponse("Login successful!", roles, true));
+                Long userId = user.getId(); // Assuming the User class has a method getId()
+                return ResponseEntity.ok(new AuthResponse("Login successful!", roles, true, userId));
             }
         }
-        return ResponseEntity.status(401).body(new AuthResponse("Invalid credentials", "", false));
+        return ResponseEntity.status(401).body(new AuthResponse("Invalid credentials", "", false, null));
     }
 }
