@@ -44,7 +44,7 @@ public class SecurityConfig {
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("http://localhost:3000"); // Allow your React frontend origin
+        corsConfiguration.addAllowedOrigin("http://localhost:5173"); // Allow your React frontend origin
         corsConfiguration.addAllowedHeader("*"); // Allow all headers
         corsConfiguration.addAllowedMethod("*"); // Allow all HTTP methods (GET, POST, PUT, DELETE, etc.)
         corsConfiguration.setAllowCredentials(true); // Allow credentials (cookies, authorization headers, etc.)

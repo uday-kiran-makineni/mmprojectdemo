@@ -1,5 +1,6 @@
 package com.test.test.Entity;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,30 +13,33 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Entity
-@Table(name = "policies")
+@Table(name = "motorinsurances")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Policy {
+public class MotorInsurance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String policynumber;
-    private String policytype;
-    private String description;
+
+    private String policyNumber;
     private Long agentId;
-    private String agentemail;
+    private String agentEmail;
+    private Long userId;
+    private String userEmail;
+    private String mobileNumber;
+
     private Date startDate;
     private Date endDate;
-    private Long userId;
     private Double premiumAmount;
     private Double coverageAmount;
     private String paymentFrequency;
     private String policyStatus;
-    private Double claimLimit;
-    private String beneficiaryDetails;
-    private String termsAndConditions;
-    private String mobileNumber;
-    private String useremail;
-}
 
+    private String vehicleMake;             // Vehicle Make (e.g., Toyota, Honda)
+    private String vehicleModel;            // Vehicle Model (e.g., Corolla, Civic)
+    private String vehicleRegistrationNumber; // Registration Number
+    private String beneficiaryDetails;      // Name, Relation
+    private String termsAndConditions;
+    private String coverageDetails;         // Details about coverage (e.g., third-party, comprehensive)
+}
