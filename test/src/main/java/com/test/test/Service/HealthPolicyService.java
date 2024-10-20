@@ -64,5 +64,9 @@ public class HealthPolicyService {
         }
         return false; // Policy not found
     }
+
+    public HealthPolicy findPolicyByNumber(String policyNumber) {
+        return healthPolicyRepository.findByPolicyNumber(policyNumber); // Adjust this line as per your repo method
+    }
 }
 

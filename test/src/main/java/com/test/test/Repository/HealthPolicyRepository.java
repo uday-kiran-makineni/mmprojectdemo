@@ -12,4 +12,5 @@ public interface HealthPolicyRepository extends JpaRepository<HealthPolicy, Long
     List<HealthPolicy> findByUserId(Long userId);
     List<HealthPolicy> findByAgentId(Long agentId);
     HealthPolicy findByPolicyNumber(String policyNumber);
+
 }
