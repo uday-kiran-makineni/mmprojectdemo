@@ -44,7 +44,7 @@ public class SecurityConfig {
                         // Allow unauthenticated access to authentication-related endpoints
                         .requestMatchers("/api/auth/**").permitAll()
                         // Restrict specific paths based on roles
-                        .requestMatchers("/api/students/**", "/api/claims/**").hasAnyRole("USER", "AGENT", "ADMIN")
+                        .requestMatchers("/api/students/**", "/api/claims/**", "/api/users/**").hasAnyRole("USER", "AGENT", "ADMIN")
                         // All other paths must be authenticated
                         .anyRequest().authenticated()
                 )

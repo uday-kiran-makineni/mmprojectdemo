@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -24,6 +25,10 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    public Optional<User> getUserById(Long id) {
+        return userRepository.findById(id);
+    }
 
     public String registerUser(RegisterRequest registerRequest) {
         // Check if the username already exists

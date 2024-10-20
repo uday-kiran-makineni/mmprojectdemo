@@ -2,6 +2,7 @@ package com.test.test.Controller;
 
 
 import com.test.test.Entity.LifeInsurance;
+import com.test.test.Service.EmailService;
 import com.test.test.Service.LifeInsuranceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
@@ -19,6 +21,9 @@ public class LifeInsuranceController {
 
     @Autowired
     private LifeInsuranceService service;
+
+    @Autowired
+    private EmailService emailService;
 
     // Get all policies (accessible to ADMIN only)
     @GetMapping("/all")
@@ -77,4 +82,24 @@ public class LifeInsuranceController {
         service.deletePolicy(policyNumber);
         return "Policy deleted successfully: " + policyNumber;
     }
+
+    @PostMapping("/send_email")
+    @PreAuthorize("hasAnyRole('USER', 'AGENT')")
+    public ResponseEntity<String> sendPolicyEmail(@RequestBody Map<String, Object> data) {
+        String receiverEmail = (String) data.get("userEmail");
+        String policyNumber = (String) data.get("policyNumber");
+        String coverageAmount = (String) data.get("coverageAmount");
+        String startDate = (String) data.get("startDate");
+        String endDate = (String) data.get("endDate");
+
+        String subject = "Policy Creation Confirmation";
+        String body = String.format("Dear User,\n\nYour policy %s has been successfully created.\n\n" +
+                        "Details:\nCoverage Amount: %s\nStart Date: %s\nEnd Date: %s\n\nThank you!",
+                policyNumber, coverageAmount, startDate, endDate);
+
+        emailService.sendEmail(receiverEmail, subject, body);
+        return ResponseEntity.status(HttpStatus.OK).body("Email sent successfully");
+    }
+
+
 }

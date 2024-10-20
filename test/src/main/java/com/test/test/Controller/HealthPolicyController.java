@@ -46,6 +46,7 @@ public class HealthPolicyController {
         return healthPolicyService.createHealthPolicy(healthPolicy);
     }
 
+    @PutMapping("/update/{policyNumber}")
     @PreAuthorize("hasAnyRole('USER', 'AGENT')")
     public ResponseEntity<HealthPolicy> updatePolicy(
             @PathVariable String policyNumber,
@@ -69,6 +70,18 @@ public class HealthPolicyController {
         }
 
         return ResponseEntity.noContent().build(); // Successfully deleted
+    }
+
+    @GetMapping("/{policyNumber}")
+    @PreAuthorize("hasAnyRole('USER', 'AGENT')")
+    public ResponseEntity<HealthPolicy> getHealthPolicyByPolicyNumber(@PathVariable String policyNumber) {
+        HealthPolicy healthPolicy = healthPolicyService.findPolicyByNumber(policyNumber);
+        if (healthPolicy != null) {
+            return ResponseEntity.ok(healthPolicy);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null); // Or you can return an error response
+        }
     }
 
 }
